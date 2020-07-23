@@ -29,12 +29,15 @@ void nouka(void);
 void circle(float x,float y,float z,int radius);
 double degToRad(int angle);
 void treeD(float x,float y, int factor);
-
-
+void object(float length, float width, float height, float x, float y, float z, int r,int g,int b);
+float maxNum(float a,float b,float c);
 
 
 float _angle = 45.0f;
 float angle2 = 0.0f;
+float xi=0;
+float yi=0;
+float zi=0;
 
 using namespace std;
 void handleKeypress(unsigned char key, int x, int y) {
@@ -50,6 +53,18 @@ void handleKeypress(unsigned char key, int x, int y) {
         break;
     case 's':  //right
         angle2 -= 1.0f;
+        break;
+    case 'k':  //right
+        xi -= 0.1f;
+        break;
+    case 'i':  //right
+        xi += 0.1f;
+        break;
+    case 'l':  //right
+        zi += 0.1f;
+        break;
+    case 'j':  //right
+        zi -= 0.1f;
         break;
     }
 }
@@ -81,7 +96,9 @@ void drawScene() {
     glColor3f (.5, 0.5, .25);
 
 
-    /* window 1 */
+
+
+    // window 1
     glColor3f (.3, 0.2, .1);
     glBegin(GL_POLYGON);
     glVertex3f (0.72, 0.25,-0.01);
@@ -90,7 +107,7 @@ void drawScene() {
     glVertex3f (0.72, 0.4,-0.01);
     glEnd();
 
-    /* window 2 */
+    // window 2
     glColor3f (.3, 0.2, .1);
     glBegin(GL_POLYGON);
     glVertex3f (0.27, 0.25, -0.01);
@@ -101,7 +118,7 @@ void drawScene() {
 
 
 
-    /* main rec */
+    // main rec
     glClear (GL_COLOR_BUFFER_BIT);
     glColor3f (153/255.0, 99/255.0, 0/255.0);
     glBegin(GL_POLYGON);
@@ -111,7 +128,7 @@ void drawScene() {
     glVertex3f (0.2, 0.575, 0.0);
     glEnd();
 
-    /*back rec*/
+    //back rec
     glColor3f (184/255.0, 123/255.0, 9/255.0);
     glBegin(GL_POLYGON);
     glVertex3f (0.2, 0.1, 0.5);
@@ -120,7 +137,7 @@ void drawScene() {
     glVertex3f (0.2, 0.575, 0.5);
     glEnd();
 
-    /* left rec */
+    // left rec
     glColor3f (130/255.0, 86/255.0, 5/255.0);
     glBegin(GL_POLYGON);
     glVertex3f (0.2, 0.1, 0.5);
@@ -129,7 +146,7 @@ void drawScene() {
     glVertex3f (0.2, 0.575, 0.5);
     glEnd();
 
-    /* right rec */
+    // right rec
     glColor3f (189/255.0, 125/255.0, 8/255.0);
     glBegin(GL_POLYGON);
     glVertex3f (0.9, 0.1, 0.5);
@@ -138,7 +155,7 @@ void drawScene() {
     glVertex3f (0.9, 0.575, 0.5);
     glEnd();
 
-    /* left tri */
+    // left tri
     glColor3f (77/255.0, 72/255.0, 63/255.0);
     glBegin(GL_TRIANGLES);
     glVertex3f (0.9, 0.575, 0.0);
@@ -146,7 +163,7 @@ void drawScene() {
     glVertex3f (0.9, 0.8, 0.25);
     glEnd();
 
-    /* right tri */
+    // right tri
     glColor3f (77/255.0, 72/255.0, 63/255.0);
     glBegin(GL_TRIANGLES);
     glVertex3f (0.2, 0.575, 0.0);
@@ -154,7 +171,7 @@ void drawScene() {
     glVertex3f (0.2, 0.8, 0.25);
     glEnd();
 
-    /* roof */
+    // roof
     glColor3f (117/255.0, 109/255.0, 95/255.0);
     glBegin(GL_POLYGON);
     glVertex3f (0.2, 0.505, -0.08);
@@ -163,7 +180,7 @@ void drawScene() {
     glVertex3f (0.2, 0.8, 0.25);
     glEnd();
 
-    /*back roof */
+    //back roof
     glColor3f (117/255.0, 109/255.0, 95/255.0);
     glBegin(GL_POLYGON);
     glVertex3f (0.2, 0.505, 0.58);
@@ -172,7 +189,7 @@ void drawScene() {
     glVertex3f (0.2, 0.8, 0.25);
     glEnd();
 
-    /* door */
+    // door
     glColor3f (71/255.0, 52/255.0, 16/255.0);
     glBegin(GL_QUADS);
     glVertex3f (0.47, 0.105, -0.01);
@@ -180,6 +197,15 @@ void drawScene() {
     glVertex3f (0.65, 0.46, -0.01);
     glVertex3f (0.47, 0.46, -0.01);
     glEnd();
+
+    glColor3f (116/255.0, 115/255.0, 102/255.0);
+    glBegin(GL_QUADS);
+    glVertex3f (0.47, 0.105, -0.01);//A
+    glVertex3f (0.65, 0.105, -0.01);//B
+    glVertex3f (0.65, 0.105, -3);//D
+    glVertex3f (0.47, 0.105, -3);//C
+    glEnd();
+
 
     circle(200.0,1100,0,150);
     treeD(0,0.25,10);
@@ -215,6 +241,33 @@ void drawScene() {
     }
     x+=60;
     z+=0.1;
+
+    //human
+    object( 0.02,  0.02,  0.2,  0+xi,  0,  0+zi,  17, 59, 166);//leg
+    object( 0.02,  0.02,  0.2,  0+0.05+xi,  0,  0+zi,  17, 59, 166);//leg
+
+    object( 0.05,  0.1,  0.15,  -0.015+xi,  0.2,  -0.01+zi,  81, 166, 17);//body
+
+    object( 0.025,  0.08,  0.07,  -0.010+xi,  0.36,  -0.005+zi,  141, 85, 36);//head
+
+    object( 0.02,  0.02,  0.15,  0.1+xi,  0.20,  0+zi,  141, 85, 36);//hand
+    object( 0.02,  0.02,  0.15,  -0.05+xi,  0.20,  0+zi,  141, 85, 36);//hand
+
+    glColor3f (0/255.0, 0/255.0, 0/255.0);//eye
+    glBegin(GL_POLYGON);
+    glVertex3f (-0.005+xi,  0.39,  -0.00505+zi);
+    glVertex3f (-0.005+xi,  0.39+0.015,  -0.00505+zi);
+    glVertex3f (-0.005+0.02+xi,  0.39+0.015,  -0.00505+zi);
+    glVertex3f (-0.005+0.02+xi,  0.39,  -0.00505+zi);
+    glEnd();
+
+    glColor3f (0/255.0, 0/255.0, 0/255.0);//eye
+    glBegin(GL_POLYGON);
+    glVertex3f (0.04+xi,  0.39,  -0.00505+zi);
+    glVertex3f (0.04+xi,  0.39+0.015,  -0.00505+zi);
+    glVertex3f (0.04+0.02+xi,  0.39+0.015,  -0.00505+zi);
+    glVertex3f (0.04+0.02+xi,  0.39,  -0.00505+zi);
+    glEnd();
 }
 
     glPopMatrix();
@@ -308,6 +361,7 @@ void treeD(float x,float y,int factor){
     glVertex3f (-0.25, 0.1, 0.3-0.05);
     glVertex3f (-0.25,0.3, 0.3-0.05);
     glEnd();
+
 }
 
 void circle(float x,float y,float z,int radius){
@@ -366,3 +420,52 @@ double degToRad(int angle){
     return (double)angle*PI/180.0;
 }
 
+void object(float length, float width, float height, float x, float y, float z, int r,int g,int b){
+
+/* main rec */
+
+
+    glColor3f (r/255.0, g/255.0, b/255.0);
+    glBegin(GL_POLYGON);
+    glVertex3f (x, y, z);
+    glVertex3f (x+width, y, z);
+    glVertex3f (x+width, y+height, z);
+    glVertex3f (x, y+height, z);
+    glEnd();
+
+    /*back rec*/
+    glColor3f ((r+20)/255.0, (g+20)/255.0, (b+20)/255.0);
+    glBegin(GL_POLYGON);
+    glVertex3f (x, y, z+length);
+    glVertex3f (x+width, y, z+length);
+    glVertex3f (x+width, y+height, z+length);
+    glVertex3f (x, y+height, z+length);
+    glEnd();
+
+    /* left rec */
+    glColor3f ((r+40)/255.0, (g+40)/255.0, (b+40)/255.0);
+    glBegin(GL_POLYGON);
+    glVertex3f (x, y, z);
+    glVertex3f (x, y+height, z);
+    glVertex3f (x, y+height, z+length);
+    glVertex3f (x, y, z+length);
+    glEnd();
+
+    /* right rec */
+    glColor3f ((r+10)/255.0, (g+10)/255.0, (b+10)/255.0);
+    glBegin(GL_POLYGON);
+    glVertex3f (x+width, y, z);
+    glVertex3f (x+width, y+height, z);
+    glVertex3f (x+width, y+height, z+length);
+    glVertex3f (x+width, y, z+length);
+    glEnd();
+}
+
+float maxNum(float a,float b,float c){
+    if(a>=b && a>=c)
+        return a;
+    else if(b>=a && b>=c)
+        return b;
+    else
+        return c;
+}
